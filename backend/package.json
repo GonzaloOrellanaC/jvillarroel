@@ -6,6 +6,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
+    "start-prod": "pm2 start dist/index.js --name jorge-backend",
     "zip": "powershell -Command \"Get-ChildItem -Path . -Exclude node_modules -Recurse | Compress-Archive -DestinationPath ../backend.zip -Force\"",
     "build-zip": "npm run build && npm run zip"
   },
