@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/models/news.ts","./src/models/user.ts","./src/routes/auth.ts","./src/routes/news.ts"],"version":"5.9.2"}
