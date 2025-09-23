@@ -10,10 +10,10 @@ const Hero: React.FC = () => (
           <div className="w-full max-w-sm">
             <img
               id="jorge-img"
-              src="/jorge.png"
+              src="/jorge-kaiser.jpeg"
               alt="Foto de Jorge Villarroel Pérez"
               className="fade-in"
-              style={{ maxHeight: 350, width: '80%', objectFit: 'cover', objectPosition: 'top', display: 'block', margin: '0 auto' }}
+              style={{ maxHeight: 400, width: 400, objectFit: 'cover', objectPosition: 'top', display: 'block', margin: '0 auto' }}
             />
           </div>
         </div>

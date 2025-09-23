@@ -26,7 +26,7 @@ const Proposals: React.FC = () => {
   return (
     <section id="propuestas" className="py-20">
       <section className="relative h-64 md:h-96 flex items-center justify-center mb-12">
-        <div className="absolute inset-0 w-full h-full bg-fixed bg-center bg-cover" style={{ backgroundImage: `url('/public/pnl.jpeg')`, filter: 'brightness(0.7)' }}></div>
+        <div className="absolute inset-0 w-full h-full bg-fixed bg-center bg-cover" style={{ backgroundImage: `url('/public/grupo.jpeg')`, filter: 'brightness(0.7)' }}></div>
         <div className="relative z-10 text-center w-full">
           <h2 className="text-3xl md:text-4xl font-bold text-white drop-shadow-lg">¡Tu voz importa!</h2>
           <p className="mt-4 text-lg text-white drop-shadow">Comparte tus ideas para mejorar el distrito</p>
