@@ -25,7 +25,7 @@ const Header: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <img src="/public/logo-jvp.png" alt="Logo" style={{ height: 63}} />
+              <img src="/logo-jvp.png" alt="Logo" style={{ height: 63}} />
               {/* <span className="font-bold text-xl text-blue-900">Jorge Villarroel P.</span> */}
             </div>
             <nav className="hidden md:block">
