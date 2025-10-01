@@ -24,28 +24,30 @@ const App: React.FC = () => {
   }, [API_URL]);
 
   return (
-    <Router>
-      <div className="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
-        <Header />
-        <main className="pt-16 flex-1">
-          <Routes>
-            <Route path="/" element={
-              <>
-                <Hero />
-                <NewsSection news={news} />
-                <Biography />
-                <District />
-                <Proposals />
-                <Contact />
-              </>
-            } />
-            <Route path="/news/:id" element={<NewsPage news={news} />} />
-          </Routes>
-        </main>
-        <Footer />
-        <AdminFab />
-      </div>
-    </Router>
+    <>
+      <Header />
+      <Router>
+        <div className="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+          <main className="pt-16 flex-1">
+            <Routes>
+              <Route path="/" element={
+                <>
+                  <Hero />
+                  <NewsSection news={news} />
+                  <Biography />
+                  <District />
+                  <Proposals />
+                  <Contact />
+                </>
+              } />
+              <Route path="/news/:id" element={<NewsPage news={news} />} />
+            </Routes>
+          </main>
+          <Footer />
+          <AdminFab />
+        </div>
+      </Router>
+    </>
   );
 };
 
