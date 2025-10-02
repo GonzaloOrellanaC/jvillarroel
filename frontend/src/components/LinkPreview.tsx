@@ -20,7 +20,7 @@ const LinkPreview: React.FC<Props> = ({ url }) => {
     }
     setLoading(true);
     setError('');
-    fetch('http://localhost:5012/link-preview', {
+    fetch(`${import.meta.env.VITE_API_URL}/link-preview`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url })

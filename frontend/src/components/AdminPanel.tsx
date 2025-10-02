@@ -60,7 +60,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ open, setOpen }) => {
     }
     setLinkLoading(true);
     const timeout = setTimeout(() => {
-      fetch('http://localhost:5012/link-preview', {
+      fetch(`${import.meta.env.VITE_API_URL}/link-preview`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: newsLink })
@@ -124,7 +124,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ open, setOpen }) => {
         for (let i = 0; i < newsImages.length && i < 4; i++) {
           const imgForm = new FormData();
           imgForm.append('file', newsImages[i]);
-          const res = await fetch('http://localhost:5012/upload', {
+          const res = await fetch(`${import.meta.env.VITE_API_URL}/upload`, {
             method: 'POST',
             body: imgForm,
             headers: { 'Authorization': 'Bearer ' + token }
@@ -139,7 +139,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ open, setOpen }) => {
       if (newsType === 'text_video' && newsVideo) {
         const vidForm = new FormData();
         vidForm.append('file', newsVideo);
-        const res = await fetch('http://localhost:5012/upload', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/upload`, {
           method: 'POST',
           body: vidForm,
           headers: { 'Authorization': 'Bearer ' + token }
