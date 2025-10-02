@@ -9,8 +9,8 @@ import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
 import LinkPreview from './LinkPreview';
 
-const ADMIN_API = 'http://localhost:5012/auth/login';
-const NEWS_API = 'http://localhost:5012/news';
+const ADMIN_API = `${import.meta.env.VITE_API_URL}/auth/login`;
+const NEWS_API = `${import.meta.env.VITE_API_URL}/news`;
 
 interface AdminPanelProps {
   open: boolean;
