@@ -14,7 +14,9 @@ const NewsPage: React.FC<Props> = ({ news }) => {
 
   if (!item) return <div className="p-8">Noticia no encontrada. <Link to="/">Volver</Link></div>;
 
-  const shareUrl = `${window.location.origin}/news/${item._id}`;
+  // Compartir usando la ruta del backend que sirve meta tags para redes sociales
+  const apiBase = (import.meta.env.VITE_API_URL || '').replace(/\/api\/?$/i, '');
+  const shareUrl = `${apiBase}/share/news/${item._id}`;
   const shareTitle = item.titular || 'Noticia';
   const shareText = item.bajada || item.lead || item.cuerpo?.slice(0, 120) || '';
   const shareImage = item.images && item.images.length > 0 ? (item.images[0].startsWith('http') ? item.images[0] : `${NEWS_API}${item.images[0]}`) : undefined;

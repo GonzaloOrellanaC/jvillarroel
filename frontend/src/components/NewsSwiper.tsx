@@ -7,13 +7,36 @@ import { NewsItem } from '../types';
 import NewsImageSwiper from './NewsImageSwiper';
 const API_URL = import.meta.env.VITE_API_URL;
 import { Link } from 'react-router-dom';
+import { useCallback } from 'react';
 import LinkPreview from './LinkPreview';
 
 interface Props {
   news: NewsItem[];
 }
 
-const NewsSwiper: React.FC<Props> = ({ news }) => (
+const NewsSwiper: React.FC<Props> = ({ news }) => {
+  const apiBase = (import.meta.env.VITE_API_URL || '').replace(/\/api\/?$/i, '');
+  const handleShare = useCallback(async (item: NewsItem) => {
+    const shareUrl = `${apiBase}/share/news/${item._id}`;
+    const shareTitle = item.titular || item.linkPreview?.title || 'Noticia';
+    const shareText = item.bajada || item.lead || item.linkPreview?.description || '';
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
+        return;
+      } catch (e) {
+        // cancelado o error
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      alert('Enlace copiado al portapapeles');
+    } catch {
+      window.open(shareUrl, '_blank', 'noopener');
+    }
+  }, [apiBase]);
+
+  return (
   <Swiper
     modules={[Navigation]}
     navigation
@@ -50,6 +73,9 @@ const NewsSwiper: React.FC<Props> = ({ news }) => (
                 </video>
               )}
               <div className="text-xs text-gray-500 mt-2">{new Date(item.createdAt).toLocaleString()}</div>
+              <div className="flex justify-end mt-2">
+                <button onClick={(e) => { e.preventDefault(); handleShare(item); }} className="ml-2 px-3 py-1 bg-blue-700 text-white rounded hover:bg-blue-800 text-xs">Compartir</button>
+              </div>
             </article>
           </Link>
         ) : (
@@ -71,11 +97,15 @@ const NewsSwiper: React.FC<Props> = ({ news }) => (
               )
             ) : null}
             <div className="text-xs text-gray-500 mt-2">{new Date(item.createdAt).toLocaleString()}</div>
+            <div className="flex justify-end mt-2">
+              <button onClick={() => handleShare(item)} className="ml-2 px-3 py-1 bg-blue-700 text-white rounded hover:bg-blue-800 text-xs">Compartir</button>
+            </div>
           </article>
   )}
       </SwiperSlide>
     ))}
   </Swiper>
-);
+  );
+};
 
 export default NewsSwiper;

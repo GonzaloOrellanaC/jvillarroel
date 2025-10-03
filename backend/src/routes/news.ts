@@ -83,6 +83,16 @@ router.post('/', auth, async (req: Request, res: Response) => {
     if (type === 'link') {
       newsData.link = link;
       if (linkPreview) newsData.linkPreview = linkPreview;
+      else if (link) {
+        // Intentar obtener metadata automáticamente
+        try {
+          const { getLinkPreviewMetadata } = await import('../utils/linkPreview');
+          const meta = await getLinkPreviewMetadata(link);
+          newsData.linkPreview = meta;
+        } catch (err) {
+          console.warn('[news] No se pudo obtener linkPreview automático:', err);
+        }
+      }
     }
     const news = new News(newsData);
     await news.save();
