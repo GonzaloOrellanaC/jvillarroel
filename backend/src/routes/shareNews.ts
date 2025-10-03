@@ -34,7 +34,7 @@ router.get('/news/:id', async (req, res) => {
     else if (news.images && news.images.length) image = `${base}${news.images[0]}`;
     else image = `${base}/html/jorge.png`;
 
-    // If an optimized OG image exists in the static html folder, prefer it
+    // Prefer an optimized OG image if it exists in backend/html
     try {
       const ogFile = path.join(__dirname, '../../html/jorge-og.jpg');
       if (fs.existsSync(ogFile)) {
@@ -44,20 +44,7 @@ router.get('/news/:id', async (req, res) => {
       // ignore filesystem errors and keep existing image
     }
 
-    // Ensure image and urls use https when possible (Twitter requires HTTPS images)
-    if (image.startsWith('http://')) image = image.replace(/^http:\/\//, 'https://');
-
-    // If an optimized OG image exists in the static html folder, prefer it
-    try {
-      const ogFile = path.join(__dirname, '../../html/jorge-og.jpg');
-      if (fs.existsSync(ogFile)) {
-        image = `${base}/jorge-og.jpg`;
-      }
-    } catch (e) {
-      // ignore filesystem errors and keep existing image
-    }
-
-    // Ensure image and urls use https when possible (Twitter requires HTTPS images)
+    // Ensure image uses https when possible (Twitter requires HTTPS images)
     if (image.startsWith('http://')) image = image.replace(/^http:\/\//, 'https://');
 
     const pageUrl = `${base}/share/news/${id}`;
