@@ -22,6 +22,7 @@ app.use(express.static(path.join(__dirname, '../../frontend/dist')));
 
 // Servir archivos subidos
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/html', express.static(path.join(__dirname, '../html')));
 
 app.use('/auth', authRoutes);
 app.use('/news', newsRoutes);
