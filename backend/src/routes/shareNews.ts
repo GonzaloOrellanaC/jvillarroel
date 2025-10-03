@@ -1,5 +1,7 @@
 import express from 'express';
 import News from '../models/News';
+import fs from 'fs';
+import path from 'path';
 
 const router = express.Router();
 
@@ -10,13 +12,40 @@ router.get('/news/:id', async (req, res) => {
     const news = await News.findById(id).lean();
     if (!news) return res.status(404).send('Not found');
 
-    const base = process.env.BASE_URL || `${req.protocol}://${req.get('host')}`;
+    // Determine scheme considering proxies (x-forwarded-proto) and env
+    const forwardedProto = (req.headers['x-forwarded-proto'] as string) || '';
+    const envBase = process.env.BASE_URL || '';
+    let base = envBase || `${req.protocol}://${req.get('host')}`;
+    // prefer x-forwarded-proto when present
+    if (forwardedProto) {
+      const host = req.get('host');
+      base = `${forwardedProto}://${host}`;
+    }
+
+    // Fallback: prefer https if not explicitly http (helps crawlers)
+    if (base.startsWith('http://') && !base.startsWith('https://')) {
+      base = base.replace(/^http:\/\//, 'https://');
+    }
+
     const title = news.linkPreview?.title || news.titular || news.epigrafe || 'Noticia';
     const description = news.linkPreview?.description || news.bajada || news.lead || '';
     let image = '';
     if (news.linkPreview?.image) image = news.linkPreview.image;
     else if (news.images && news.images.length) image = `${base}${news.images[0]}`;
     else image = `${base}/jorge.png`;
+
+    // If an optimized OG image exists in the static html folder, prefer it
+    try {
+      const ogFile = path.join(__dirname, '../../html/jorge-og.jpg');
+      if (fs.existsSync(ogFile)) {
+        image = `${base}/jorge-og.jpg`;
+      }
+    } catch (e) {
+      // ignore filesystem errors and keep existing image
+    }
+
+    // Ensure image and urls use https when possible (Twitter requires HTTPS images)
+    if (image.startsWith('http://')) image = image.replace(/^http:\/\//, 'https://');
 
     const pageUrl = `${base}/share/news/${id}`;
     const canonical = `${base}/news/${id}`; // SPA route where the app shows the news
